@@ -1,0 +1,28 @@
+from fastapi import FastAPI, File, HTTPException  
+from fastapi.responses import StreamingResponse  
+from pathlib import Path  
+  
+app = FastAPI()  
+  
+# MP3文件存储的目录  
+MP3_DIRECTORY = Path("D:/mp3/")  
+  
+@app.get("/mp3/{filename:path}")  
+async def read_mp3(filename: str):  
+    # 构造完整的文件路径  
+    file_path = MP3_DIRECTORY / filename  
+      
+    # 检查文件是否存在  
+    if not file_path.exists():  
+        raise HTTPException(status_code=404, detail=f"MP3 file not found: {filename}")  
+      
+    # 检查文件是否为MP3格式  
+    if not file_path.suffix.lower() == ".mp3":  
+        raise HTTPException(status_code=415, detail=f"Unsupported file type: {filename}")  
+      
+    # 打开文件并作为流返回  
+    return StreamingResponse(file_path.open('rb'), media_type="audio/mpeg")  
+  
+if __name__ == "__main__":  
+    import uvicorn  
+    uvicorn.run(app, host="0.0.0.0", port=8000)
