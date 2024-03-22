@@ -1,3 +1,10 @@
+TODO
+- [ ] 播放流式处理
+- [ ] 本地鉴权
+- [ ] 增加UI 界面
+  - [x]   屏幕2.4 st7789
+  - [x]   库 TFT-eSPI
+- [ ] web 配置界面
 # Esp32_VoiceChat_LLMs
 esp32 based device, mainly used for voice chat with large language models
 
