@@ -7,6 +7,7 @@
 #include "Audio2.h"
 #include <ArduinoJson.h>
 #include <ArduinoWebsockets.h>
+#include "urlencode.h"
 using namespace websockets;
 
 #define key 0
@@ -226,7 +227,7 @@ void onMessageCallback1(WebsocketsMessage message)
 
                     if (askquestion.substring(0, 12) == "唱歌了，" or askquestion.substring(0, 12) == "唱歌啦，")
                     { // 自建音乐服务器，按照文件名查找对应歌曲
-                        String audioStreamURL = "http://192.168.0.1/mp3/" + askquestion.substring(12, askquestion.length() - 3) + ".mp3";
+                        String audioStreamURL = "http://192.168.0.1/mp3/" + url_encode(askquestion.substring(12, askquestion.length() - 3)) + ".mp3";
                         Serial.println(audioStreamURL.c_str());
                         audio2.connecttohost(audioStreamURL.c_str());
                     }
@@ -238,7 +239,7 @@ void onMessageCallback1(WebsocketsMessage message)
                     }
                     else
                     {
-                        String audioStreamURL = "http://192.168.0.1/mp3/" + askquestion.substring(9, askquestion.length() - 3) + ".mp3";
+                        String audioStreamURL = "http://192.168.0.1/mp3/" + url_encode(askquestion.substring(9, askquestion.length() - 3)) + ".mp3";
                         Serial.println(audioStreamURL.c_str());
                         audio2.connecttohost(audioStreamURL.c_str());
                     }
@@ -254,7 +255,7 @@ void onMessageCallback1(WebsocketsMessage message)
                     {
                         askquestion = askquestion.substring(0, askquestion.length() - 1);
                     }
-                    String audioStreamURL = "http://192.168.0.1/mp3/" + askquestion + ".mp3";
+                    String audioStreamURL = "http://192.168.0.1/mp3/" + url_encode(askquestion) + ".mp3";
                     Serial.println(audioStreamURL.c_str());
                     audio2.connecttohost(audioStreamURL.c_str());
                     mainStatus = 0;
